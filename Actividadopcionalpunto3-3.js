@@ -81,4 +81,5 @@ const manager = new Manager(rutaarchivo);
     //Métodos
     await manager.addUser(1, 'tomas', '12345');
     await manager.getUsers();
+    await manager.deleteUsers(2);
 })();
