@@ -1,0 +1,12 @@
+{
+  "name": "practicascoder",
+  "version": "1.0.0",
+  "main": "Actividadopcionalpunto3-3.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "toto",
+  "license": "ISC",
+  "description": "pruebas y actividades en coderhouse backend Js, node, express, mongodb."
+}
