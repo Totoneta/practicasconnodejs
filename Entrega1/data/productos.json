@@ -1,0 +1,13 @@
+[
+  {
+    "id": "07207388-501e-4843-b250-8fa33ccaf91d",
+    "title": "Leche",
+    "description": "desc",
+    "code": "ABC123",
+    "price": 120,
+    "status": true,
+    "stock": 18,
+    "category": "algo",
+    "thumbnails": []
+  }
+]

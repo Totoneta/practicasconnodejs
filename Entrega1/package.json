@@ -1,0 +1,17 @@
+{
+  "name": "entrega1",
+  "version": "1.0.0",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "node src/main.js"
+  },
+  "keywords": [],
+  "author": "Tomas Godoy",
+  "license": "ISC",
+  "type": "module",
+  "description": "Coderhouse Js en backend",
+  "dependencies": {
+    "express": "^5.1.0",
+    "uuid": "^13.0.0"
+  }
+}
