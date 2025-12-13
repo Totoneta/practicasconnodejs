@@ -1,12 +1,11 @@
-/* File System */
-import fs from 'fs';
 // Router Express
 import { Router } from "express";
 const router = Router();
 /* Managers */
 import { managerproductos } from '../managers/product.js';
 import { productvalidator } from '../middlewares/product-validator.js';
-import { upload } from '../middlewares/multer.js';
+// Multer
+import { upload } from "../middlewares/multer.js";
 
 
 // --------------------------------------- PRODUCTS ---------------------------------------
@@ -46,16 +45,18 @@ router.get('/:pid', async (req, res) => {
 });
 
 // Add Products
-router.post('/', [productvalidator], async (req, res) => {
+router.post('/', upload.single('image'), productvalidator, async (req, res) => {
     try {
-        const productonuevo = await managerproductos.addProducto(req.body);
+        const productonuevo = await managerproductos.addProducto({
+            ...req.body,
+            image: req.file.path
+        });
 
         res.status(201).json({
             message: 'Producto agregado correctamente.',
             producto: productonuevo
         });
     } catch (e) {
-        console.log('ERROR POST PRODUCTO:', e);
         return res.status(500).json({
             error: 'Error de sv',
             error: e

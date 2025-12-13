@@ -1,12 +1,8 @@
-/* File System */
-import fs from 'fs';
 // Router Express
 import { Router } from "express";
 const router = Router();
 /* Managers */
 import { managercart } from '../managers/cart.js';
-import { managerproductos } from '../managers/product.js';
-
 
 // --------------------------------------- CART ---------------------------------------
 // Create Cart
@@ -21,10 +17,30 @@ router.post('/', async (req, res) => {
     catch (e) {
         res.status(500).json({
             message: 'Error al crear el carrito',
-            error: e
+            error: JSON.stringify(e)
         })
     }
 });
+
+// Get Carts
+router.get('/', async (req, res) => {
+    try {
+        const carts = await managercart.getCarts();
+
+        if (!carts) return res.status(404).json({ error: "Error en la carga de carritos." });
+
+        res.status(200).json({
+            message: 'Carritos obtenidos correctamente.',
+            carts: carts
+        });
+    }
+    catch (e) {
+        res.status(500).json({
+            message: 'Error al obtener los carritos.',
+            error: JSON.stringify(e)
+        })
+    }
+})
 
 // Get products Cart by id
 router.get('/:cid', async (req, res) => {
@@ -40,7 +56,7 @@ router.get('/:cid', async (req, res) => {
     catch (e) {
         res.status(500).json({
             message: 'Error al obtener los productos del carrito.',
-            error: e
+            error: JSON.stringify(e)
         })
     }
 })
@@ -49,7 +65,7 @@ router.get('/:cid', async (req, res) => {
 router.post('/:cid/product/:pid', async (req, res) => {
     try {
         const { cid, pid } = req.params;
-        const caritoupdated = managercart.addProdToCart(cid, pid)
+        const caritoupdated = await managercart.addProdToCart(cid, pid)
 
         res.status(200).json({
             message: 'Producto agregado al carrito correctamente.',
@@ -59,7 +75,7 @@ router.post('/:cid/product/:pid', async (req, res) => {
     catch (e) {
         res.status(500).json({
             message: 'Error al agregar el producto al carrito.',
-            error: e
+            error: JSON.stringify(e)
         })
     }
 })

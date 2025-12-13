@@ -82,4 +82,4 @@ export class ProductManager {
 };
 
 // Managers
-export const managerproductos = new ProductManager('./data/productos.json');
+export const managerproductos = new ProductManager('./src/data/productos.json');

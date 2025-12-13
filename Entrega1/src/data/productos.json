@@ -1,0 +1,24 @@
+[
+  {
+    "id": "fceaf66f-3c0d-4db3-b4ee-75c97d0cc0f0",
+    "title": "Aceite",
+    "description": "desc",
+    "price": 120,
+    "stock": 18,
+    "code": "ABC123",
+    "status": true,
+    "category": "algo",
+    "thumbnails": []
+  },
+  {
+    "id": "ab509511-505c-49e4-82bb-c1584eddd3ad",
+    "title": "Leche",
+    "description": "desc",
+    "code": "abc120",
+    "price": "120",
+    "status": "true",
+    "stock": "10",
+    "category": "Bebidas",
+    "image": "C:\\Users\\tomas\\Desktop\\Yo\\Cursos\\BackendJs\\ActividadesPracticas\\Entrega1\\src\\public\\9627f6f5-18c8-4917-9227-b7949b8d1813.png"
+  }
+]

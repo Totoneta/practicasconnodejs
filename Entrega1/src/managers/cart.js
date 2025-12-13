@@ -2,7 +2,7 @@
 import fs from 'fs';
 /* UUID id únicos */
 import { v4 as uuidv4 } from 'uuid';
-import { managerproductos } from './product';
+import { managerproductos } from './product.js';
 
 /* --------------------------------------- Cart Manager Class --------------------------------------- */
 export class CartsManager {
@@ -12,18 +12,18 @@ export class CartsManager {
 
     // Create Cart
     createCart = async () => {
-        const cart = await this.getCart();
+        const cart = await this.getCarts();
         const newcart = {
             id: uuidv4(),
             productos: []
         };
         cart.push(newcart);
         await fs.promises.writeFile(this.cartpath, JSON.stringify(cart, null, 2));
-        return cart;
+        return newcart;
     }
 
-    // Get Cart
-    getCart = async () => {
+    // Get Carts
+    getCarts = async () => {
         try {
             if (!fs.existsSync(this.cartpath)) {
                 await fs.promises.writeFile(this.cartpath, "[]");
@@ -40,7 +40,7 @@ export class CartsManager {
 
     // Get Cart by id
     getCartById = async (id) => {
-        const cart = await this.getCart();
+        const cart = await this.getCarts();
         const cartbyid = cart.find(e => e.id === id);
         if (!cartbyid) return null;
         return cartbyid;
@@ -51,8 +51,8 @@ export class CartsManager {
         const cartbyid = await this.getCartById(cid);
         const prodbyid = await managerproductos.getProdById(pid);
 
-        if (!cartbyid) res.status(404).json({ error: "Carrito no encontrado." });
-        if (!prodbyid) res.status(404).json({ error: "Producto no encontrado." });
+        if (!cartbyid) return null;
+        if (!prodbyid) return null;
 
         const cartproducts = cartbyid.productos;
         const productincartExist = cartproducts.find(e => e.idprod === pid);
@@ -66,14 +66,14 @@ export class CartsManager {
             });
         }
 
-        const todosloscarritos = await managercart.getCart();
+        const todosloscarritos = await this.getCarts();
         const carritosupdated = todosloscarritos.map(e => e.id === cid ? cartbyid : e)
 
-        await fs.promises.writeFile(managercart.cartpath, JSON.stringify(carritosupdated, null, 2));
+        await fs.promises.writeFile(this.cartpath, JSON.stringify(carritosupdated, null, 2));
         return carritosupdated;
     }
 
 }
 
 // Managers
-export const managercart = new CartsManager('./data/carts.json');
+export const managercart = new CartsManager('./src/data/carts.json');
