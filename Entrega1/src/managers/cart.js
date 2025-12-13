@@ -2,6 +2,7 @@
 import fs from 'fs';
 /* UUID id únicos */
 import { v4 as uuidv4 } from 'uuid';
+import { managerproductos } from './product';
 
 /* --------------------------------------- Cart Manager Class --------------------------------------- */
 export class CartsManager {
@@ -46,9 +47,31 @@ export class CartsManager {
     }
 
     // Add Product on Cart
-    addProdToCart = (idprod, quantity) => {
-        
-    } //If exist on cart add 1 to quantity
+    addProdToCart = async (cid, pid) => {
+        const cartbyid = await this.getCartById(cid);
+        const prodbyid = await managerproductos.getProdById(pid);
+
+        if (!cartbyid) res.status(404).json({ error: "Carrito no encontrado." });
+        if (!prodbyid) res.status(404).json({ error: "Producto no encontrado." });
+
+        const cartproducts = cartbyid.productos;
+        const productincartExist = cartproducts.find(e => e.idprod === pid);
+
+        if (productincartExist) {
+            productincartExist.quantity += 1;
+        } else {
+            cartbyid.productos.push({
+                idprod: pid,
+                quantity: 1
+            });
+        }
+
+        const todosloscarritos = await managercart.getCart();
+        const carritosupdated = todosloscarritos.map(e => e.id === cid ? cartbyid : e)
+
+        await fs.promises.writeFile(managercart.cartpath, JSON.stringify(carritosupdated, null, 2));
+        return carritosupdated;
+    }
 
 }
 
