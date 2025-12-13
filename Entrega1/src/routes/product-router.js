@@ -1,5 +1,3 @@
-/* UUID id únicos */
-import { v4 as uuidv4 } from 'uuid';
 /* File System */
 import fs from 'fs';
 // Router Express
@@ -7,62 +5,101 @@ import { Router } from "express";
 const router = Router();
 /* Managers */
 import { managerproductos } from '../managers/product.js';
+import { productvalidator } from '../middlewares/product-validator.js';
+import { upload } from '../middlewares/multer.js';
 
 
 // --------------------------------------- PRODUCTS ---------------------------------------
 // Get all Products
 router.get('/', async (req, res) => {
-    const productos = await managerproductos.getProd();
-    res.json(productos)
+    try {
+        const productos = await managerproductos.getProd();
+        res.status(200).json({
+            message: 'Productos obtenidos con exito.',
+            productos: productos
+        })
+    }
+    catch (e) {
+        res.status(500).json({
+            message: 'Error al obtener los productos.',
+            error: e
+        })
+    }
 });
 
 // Product by id
 router.get('/:pid', async (req, res) => {
-    const prodfiltrado = await managerproductos.getProdById(req.params.pid);
-    if (!prodfiltrado) return res.status(404).json({ error: 'Producto no encontrado.' });
-    res.json(prodfiltrado)
+    try {
+        const prodfiltrado = await managerproductos.getProdById(req.params.pid);
+        if (!prodfiltrado) return res.status(404).json({ error: 'Producto no encontrado.' });
+        res.status(200).json({
+            message: 'Producto por id obtenido correctamente.',
+            productos: prodfiltrado
+        });
+    }
+    catch (e) {
+        res.status(500).json({
+            message: 'Error al obtener el producto/producto inexistente.',
+            error: e
+        })
+    }
 });
 
 // Add Products
-router.post('/', async (req, res) => {
+router.post('/', [productvalidator], async (req, res) => {
     try {
+        const productonuevo = await managerproductos.addProducto(req.body);
 
-        const producto = req.body;
-        const products = await managerproductos.getProd()
-
-        if (!producto.title || !producto.description || !producto.code || !producto.price || producto.status == null || !producto.stock || !producto.category || producto.thumbnails == null) {
-            return res.status(400).json({ error: 'Faltan rellenar campos, todos son obligatorios.' });
-        }
-
-        const productonuevo = {
-            id: uuidv4(),
-            ...producto
-        };
-
-        products.push(productonuevo);
-        await fs.promises.writeFile(managerproductos.productpath, JSON.stringify(products, null, 2));
-
-        res.json('Producto agregado.' + JSON.stringify(producto, null, 2));
+        res.status(201).json({
+            message: 'Producto agregado correctamente.',
+            producto: productonuevo
+        });
     } catch (e) {
         console.log('ERROR POST PRODUCTO:', e);
-        return res.status(500).json({ error: 'Error de sv' })
+        return res.status(500).json({
+            error: 'Error de sv',
+            error: e
+        })
     }
 });
 
 // Modify Products
 router.put('/:pid', async (req, res) => {
-    let modifyprod = await managerproductos.putProduct(req.params.pid, req.body);
+    try {
+        let modifyprod = await managerproductos.putProduct(req.params.pid, req.body);
 
-    if (!modifyprod) return res.status(404).json({ error: 'Producto no existente para su modificación.' })
-    res.json(modifyprod)
+        if (!modifyprod) return res.status(404).json({ error: 'Producto no existente para su modificación.' });
+
+        return res.status(200).json({
+            message: 'Producto modificado correctamente.',
+            producto: modifyprod
+        })
+    }
+    catch (e) {
+        res.status(500).json({
+            message: 'Error al modificar el producto.',
+            error: e
+        })
+    }
 });
 
 // Delete Products
 router.delete('/:pid', async (req, res) => {
-    const prodfiltrado = await managerproductos.deleteProduct(req.params.pid);
-    if (!prodfiltrado) return res.status(404).json({ error: 'Producto no encontrado, no existe.' })
+    try {
+        const prodfiltrado = await managerproductos.deleteProduct(req.params.pid);
+        if (!prodfiltrado) return res.status(404).json({ error: 'Producto no encontrado, no existe.' })
 
-    res.json(prodfiltrado)
+        res.status(200).json({
+            message: 'Producto eliminado correctamente.',
+            producto: prodfiltrado
+        })
+    }
+    catch (e) {
+        res.status(500).json({
+            message: 'Error al eliminar el producto.',
+            error: e
+        })
+    }
 });
 
 export default router;

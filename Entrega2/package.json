@@ -11,6 +11,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "express": "^5.2.1",
+    "express-handlebars": "^8.0.4",
     "handlebars": "^4.7.8"
   }
 }

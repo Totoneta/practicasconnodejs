@@ -12,6 +12,8 @@
   "description": "Coderhouse Js en backend",
   "dependencies": {
     "express": "^5.1.0",
+    "express-handlebars": "^8.0.4",
+    "multer": "^2.0.2",
     "uuid": "^13.0.0"
   }
 }

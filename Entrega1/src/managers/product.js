@@ -1,5 +1,7 @@
 /* File System */
 import fs from 'fs';
+/* UUID id únicos */
+import { v4 as uuidv4 } from 'uuid';
 
 /* --------------------------------------- Product Manager Class --------------------------------------- */
 export class ProductManager {
@@ -31,6 +33,21 @@ export class ProductManager {
         if (!prodfiltrado) return null;
         return prodfiltrado
     };
+
+    //Add Product
+    addProducto = async (prod) => {
+        const products = await this.getProd();
+
+        const productonuevo = {
+            id: uuidv4(),
+            ...prod
+        };
+
+        products.push(productonuevo);
+        
+        await fs.promises.writeFile(this.productpath, JSON.stringify(products, null, 2));
+        return productonuevo;
+    }
 
     // Modify Product
     putProduct = async (id, obj) => {
