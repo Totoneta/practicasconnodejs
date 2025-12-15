@@ -1,24 +1,101 @@
 [
   {
-    "id": "fceaf66f-3c0d-4db3-b4ee-75c97d0cc0f0",
-    "title": "Aceite",
-    "description": "desc",
-    "price": 120,
-    "stock": 18,
-    "code": "ABC123",
-    "status": true,
-    "category": "algo",
-    "thumbnails": []
+    "id": "d3832e3f-47ff-467a-83e4-783928f8e37b",
+    "title": "asd",
+    "description": "asda",
+    "code": "asda",
+    "price": "123",
+    "status": "qsad",
+    "stock": "123",
+    "category": "asda",
+    "image": ""
   },
   {
-    "id": "ab509511-505c-49e4-82bb-c1584eddd3ad",
-    "title": "Leche",
-    "description": "desc",
-    "code": "abc120",
-    "price": "120",
-    "status": "true",
-    "stock": "10",
-    "category": "Bebidas",
-    "image": "C:\\Users\\tomas\\Desktop\\Yo\\Cursos\\BackendJs\\ActividadesPracticas\\Entrega1\\src\\public\\9627f6f5-18c8-4917-9227-b7949b8d1813.png"
+    "id": "e16f5a23-24b2-4078-a3a1-3d3e65f71cfa",
+    "title": "42134",
+    "description": "23423423",
+    "code": "21342",
+    "price": "4234",
+    "status": "23142",
+    "stock": "4234",
+    "category": "1242314",
+    "image": ""
+  },
+  {
+    "id": "4588eb02-5695-4223-8356-ec8f79bf70fb",
+    "title": "42134",
+    "description": "23423423",
+    "code": "21342",
+    "price": "4234",
+    "status": "23142",
+    "stock": "4234",
+    "category": "1242314",
+    "image": ""
+  },
+  {
+    "id": "0ca6c152-4ca8-46e0-b47b-dbdd6a3b6e07",
+    "title": "",
+    "description": "",
+    "code": "",
+    "price": "",
+    "status": "",
+    "stock": "",
+    "category": "",
+    "image": ""
+  },
+  {
+    "id": "a56a2025-277c-4a29-baea-6af039aad73f",
+    "title": "",
+    "description": "",
+    "code": "",
+    "price": "",
+    "status": "",
+    "stock": "",
+    "category": "",
+    "image": ""
+  },
+  {
+    "id": "4379704d-c308-4d17-b436-6794cc09a6ec",
+    "title": "21341",
+    "description": "123",
+    "code": "234",
+    "price": "243",
+    "status": "243",
+    "stock": "234",
+    "category": "234",
+    "image": ""
+  },
+  {
+    "id": "8db318b6-2f8c-4853-a4b0-227ceeffb33f",
+    "title": "21341",
+    "description": "123",
+    "code": "234",
+    "price": "243",
+    "status": "243",
+    "stock": "234",
+    "category": "234",
+    "image": ""
+  },
+  {
+    "id": "8d4220d4-1263-40ec-b37e-52724fb46061",
+    "title": "21341",
+    "description": "123",
+    "code": "234",
+    "price": "243",
+    "status": "243",
+    "stock": "234",
+    "category": "",
+    "image": ""
+  },
+  {
+    "id": "a9363e8b-9df8-45b9-8325-02653c968cbd",
+    "title": "21341",
+    "description": "123",
+    "code": "234",
+    "price": "243",
+    "status": "243",
+    "stock": "234",
+    "category": "",
+    "image": "C:\\fakepath\\9627f6f5-18c8-4917-9227-b7949b8d1813.png"
   }
 ]
