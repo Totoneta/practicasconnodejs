@@ -6,7 +6,7 @@
   </ul>
 
   <!-- Formulario ingresar producto nuevo -->
-  <form id="form" class="formprod" action="/realtimeproducts" method="post">
+  <form id="form" class="formprod" enctype="multipart/form-data" action="/realtimeproducts" method="post">
 
     <label for="title">Título</label>
     <input id="title" type="text" name="title" />
@@ -38,7 +38,8 @@
 
 <!-- Scripts -->
 <script src="/socket.io/socket.io.js"></script>
-<script src="/js/index.js"></script>
+<script type="module" src="/js/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
   .container { display: grid; grid-template-columns: 60% 40%; justify-content:

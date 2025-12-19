@@ -14,6 +14,9 @@ import { Server } from 'socket.io';
 import { managerproductos } from './managers/product.js';
 
 // --------------------------------------- API ---------------------------------------
+
+
+
 // App
 SERVER.use(express.json());
 SERVER.use(express.urlencoded({ extended: true }))
@@ -42,14 +45,20 @@ socketserver.on('connection', async (socket) => {
     // Obtener productos
     const productos = await managerproductos.getProd();
     socket.emit('productos', productos);
+    
+    // Elimnar producto
+    socket.on('eliminarproducto', async (id) => {
+        await managerproductos.deleteProduct(id);
+        const productosActualizados = await managerproductos.getProd();
+        socketserver.emit('productos', productosActualizados)
+    });
 
-    // Actualizacion de lista de productos
-    socket.on('producto-nuevo', async (prod) => {
-        await managerproductos.addProducto(prod);
-        const productos = await managerproductos.getProd();
-        socketserver.emit('productos', productos);
-    })
-
+    socket.on('usuarioemail',  async (nombreuser) => {
+        socket.broadcast.emit('usuario-conectado', nombreuser);
+    });
+    
 })
 
+// Io
+SERVER.set('io', socketserver);
 
