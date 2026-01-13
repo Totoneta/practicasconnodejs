@@ -42,7 +42,7 @@ class CartController {
     // Get Cart's Products by id
     getcartsproducts = async (req, res) => {
         try {
-            const cartbyid = await this.manager.getCartById(req.params.cid);
+            const cartbyid = await this.manager.getCartWithProdsById(req.params.cid);
             if (!cartbyid) return res.status(404).json({ error: "Carrito con inexistente." })
             const cartproducts = cartbyid.productos;
             res.status(200).json({
@@ -75,6 +75,17 @@ class CartController {
         }
     }
 
+    // Delete single product from Cart
+    deleteprodfromcart = async (req, res) => {
+        try {
+            const { cid, pid } = req.params;
+            const updatedCart = await this.manager.deleteProductFromCart(cid, pid);
+            res.status(200).json({ status: "success", message: "Producto eliminado", updatedCart });
+        } catch (e) {
+            res.status(500).json({ status: "error", message: "Error al eliminar el producto." });
+        }
+    }
+
     // Delete Cart
     deletecart = async (req, res) => {
         try {
@@ -89,6 +100,17 @@ class CartController {
             res.status(500).json({
                 message: 'Error al eliminar el carrito.'
             })
+        }
+    }
+
+    // Empty cart
+    emptycart = async (req, res) => {
+        try {
+            const { cid } = req.params;
+            const cart = await this.manager.emptyCart(cid);
+            res.status(200).json({ status: "success", message: 'Carrito vaciado correctamente.', cart });
+        } catch (e) {
+            res.status(500).json({ status: "error", message: 'Error al vaciar el carrito.' });
         }
     }
 }

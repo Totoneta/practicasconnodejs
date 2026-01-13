@@ -8,11 +8,29 @@ class ProductController {
     // Get all Products
     getProd = async (req, res) => {
         try {
-            const productos = await this.manager.getProd();
+            const { limit, sort, page, query } = req.query;
+
+            let sortOrder = -1;
+            if (sort === 'asc') sortOrder = 1;
+            if (sort === 'desc') sortOrder = -1;
+
+            const filtro = query ? { name: { $regex: query, $options: 'i' } } : {};
+            const prods = await this.manager.getProd(limit, sort, page, filtro);
+            if (!prods) throw new Error("No se pudieron obtener los datos");
+
+            const baseUrl = `${req.protocol}://${req.get('host')}${req.baseUrl}`;
             res.status(200).json({
-                message: 'Productos obtenidos con exito.',
-                productos: productos
-            })
+                status: "success",
+                payload: prods.docs,
+                totalPages: prods.totalPages,
+                prevPage: prods.prevPage,
+                nextPage: prods.nextPage,
+                page: prods.page,
+                hasPrevPage: prods.hasPrevPage,
+                hasNextPage: prods.hasNextPage,
+                prevLink: prods.hasPrevPage ? `${baseUrl}?limit=${limit}&page=${prods.prevPage}&sort=${sort || ''}&query=${query || ''}` : null,
+                nextLink: prods.hasNextPage ? `${baseUrl}?limit=${limit}&page=${prods.nextPage}&sort=${sort || ''}&query=${query || ''}` : null
+            });
         }
         catch (e) {
             res.status(500).json({

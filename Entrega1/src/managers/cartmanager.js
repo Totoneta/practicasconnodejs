@@ -60,7 +60,7 @@ export class CartsManager {
             const carrito = await this.model.findById(cid);
             if (!carrito) return null;
 
-            const productincartExist = carrito.productos.find(e => e.idprod === pid);
+            const productincartExist = carrito.productos.find(e => e.product.toString() === pid);
 
             if (productincartExist) {
                 productincartExist.quantity += 1;
@@ -79,6 +79,18 @@ export class CartsManager {
         }
     }
 
+    // Delete prods from cart
+    deleteProductFromCart = async (cid, pid) => {
+        try {
+            const cart = await this.model.findById(cid);
+            cart.productos = cart.productos.filter(p => p.product.toString() !== pid);
+            await cart.save();
+            return cart;
+        } catch (e) {
+            console.log(`Error al eliminar el producto del carrito: ${e}`);
+        }
+    }
+
     deleteCart = async (cid) => {
         try {
             await this.model.findByIdAndDelete(cid);
@@ -87,7 +99,19 @@ export class CartsManager {
             console.log('Hubo problemas al eliminar el carrito, reintente más tarde.');
         }
     }
-
+    // Empty cart
+    emptyCart = async (cid) => {
+        try {
+            const cart = await this.model.findByIdAndUpdate(
+                cid,
+                { productos: [] },
+                { new: true }
+            );
+            return cart;
+        } catch (e) {
+            console.log(`Error al vaciar el carrito: ${e}`);
+        }
+    }
 }
 
 // Managers

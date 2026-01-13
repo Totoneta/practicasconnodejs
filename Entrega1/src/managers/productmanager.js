@@ -8,9 +8,14 @@ export class ProductManager {
     }
 
     // Get all Products
-    getProd = async () => {
+    getProd = async (limit = 10, sort = -1, page = 1, query = {}) => {
         try {
-            const prods = await this.model.find({});
+            const options = {
+                limit: Number(limit),
+                page: Number(page),
+                sort: { price: sort }
+            };
+            const prods = await this.model.paginate(query, options);
             return prods;
         }
         catch (e) {
