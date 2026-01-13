@@ -22,34 +22,18 @@ document.addEventListener('DOMContentLoaded', async () => {
       <img src="${e.image}" alt="${e.image}" />
       </div>
       <div>
-      <p>id: ${e.id}</p>
-      <p>Título: ${e.title}</p>
+      <p>id: ${e._id}</p>
+      <p>Título: ${e.name}</p>
       <p>Descripción: ${e.description}</p>
-      <p>Código: ${e.code}</p>
       <p>Precio: ${e.price}</p>
-      <p>Estado: ${e.status}</p>
       <p>Stock: ${e.stock}</p>
-      <p>Categoría: ${e.category}</p>
-      <button type="button" data-id="${e.id}">Eliminar</button>
+      <button type="button" data-id="${e._id}">Eliminar</button>
       </div>
       `;
       listadoproductos.appendChild(li);
     });
-  });
-
-
-  // Inputs producto
-  const title = document.getElementById('title');
-  const description = document.getElementById('description');
-  const code = document.getElementById('code');
-  const price = document.getElementById('price');
-  const estado = document.getElementById('status');
-  const stock = document.getElementById('stock');
-  const category = document.getElementById('category');
-  const image = document.getElementById('image');
-  // Form
-  const formulario = document.getElementById('form');
-
+  }); 
+  
   
   // Eliminar producto
   listadoproductos.addEventListener('click', (e) => {

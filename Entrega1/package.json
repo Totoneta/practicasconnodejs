@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "src/main.js",
   "scripts": {
-    "start": "node src/main.js"
+    "start": "node --env-file=.env src/main.js"
   },
   "keywords": [],
   "author": "Tomas Godoy",
@@ -13,6 +13,7 @@
   "dependencies": {
     "express": "^5.1.0",
     "express-handlebars": "^8.0.4",
+    "mongoose": "^9.1.2",
     "multer": "^2.0.2",
     "socket.io": "^4.8.1",
     "sweetalert2": "^11.26.10",

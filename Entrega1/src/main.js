@@ -1,7 +1,6 @@
 /* Express */
 import express from 'express';
 const SERVER = express()
-const PORT = 8080;
 // Routers
 import productsrouter from './routes/product-router.js';
 import cartsrouter from './routes/carts-router.js';
@@ -11,11 +10,11 @@ import handlebars from 'express-handlebars';
 // Sockets
 import { Server } from 'socket.io';
 // Manager
-import { managerproductos } from './managers/product.js';
+import { managerproductos } from './managers/productmanager.js';
+// Mongoose
+import { initMongoDB } from './config/connection.js';
 
 // --------------------------------------- API ---------------------------------------
-
-
 
 // App
 SERVER.use(express.json());
@@ -34,9 +33,15 @@ SERVER.use('/api/products', productsrouter);
 SERVER.use('/api/carts', cartsrouter);
 SERVER.use('/', viewsrouter);
 
+// Mongo Atlas
+initMongoDB()
+    .then(() => console.log('base conectada'))
+    .catch((e) => console.log(e))
+
 // Listen port 8080
+const PORT = process.env.PORT || 8080;
 const serverlistener = SERVER.listen(PORT, () => {
-    console.log('Sv OPEN: 8080');
+    console.log(`Sv OPEN: ${PORT}`);
 });
 
 const socketserver = new Server(serverlistener);
@@ -45,7 +50,7 @@ socketserver.on('connection', async (socket) => {
     // Obtener productos
     const productos = await managerproductos.getProd();
     socket.emit('productos', productos);
-    
+
     // Elimnar producto
     socket.on('eliminarproducto', async (id) => {
         await managerproductos.deleteProduct(id);
@@ -53,10 +58,10 @@ socketserver.on('connection', async (socket) => {
         socketserver.emit('productos', productosActualizados)
     });
 
-    socket.on('usuarioemail',  async (nombreuser) => {
+    socket.on('usuarioemail', async (nombreuser) => {
         socket.broadcast.emit('usuario-conectado', nombreuser);
     });
-    
+
 })
 
 // Io
